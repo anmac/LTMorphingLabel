@@ -83,7 +83,7 @@ typealias LTMorphingSkipFramesClosure =
     @IBInspectable open var morphingEnabled: Bool = true
 
     @IBOutlet open weak var delegate: LTMorphingLabelDelegate?
-    open var morphingEffect: LTMorphingEffect = .scale
+    @IBInspectable open var morphingEffect: LTMorphingEffect = .scale
     
     var startClosures = [String: LTMorphingStartClosure]()
     var effectClosures = [String: LTMorphingEffectClosure]()
@@ -160,25 +160,25 @@ typealias LTMorphingSkipFramesClosure =
         }
     }
 
-    open func start() {
+    @objc public func start() {
         guard displayLink == nil else { return }
         displayLink = CADisplayLink(target: self, selector: #selector(displayFrameTick))
         displayLink?.add(to: .current, forMode: RunLoop.Mode.common)
     }
 
-    open func pause() {
+    @objc public func pause() {
         displayLink?.isPaused = true
     }
     
-    open func unpause() {
+    @objc public func unpause() {
         displayLink?.isPaused = false
     }
     
-    open func finish() {
+    @objc public func finish() {
         displayLink?.isPaused = false
     }
     
-    open func stop() {
+    @objc public func stop() {
         displayLink?.remove(from: .current, forMode: RunLoop.Mode.common)
         displayLink?.invalidate()
         displayLink = nil
@@ -230,7 +230,7 @@ typealias LTMorphingSkipFramesClosure =
 // MARK: - Animation extension
 extension LTMorphingLabel {
 
-    public func updateProgress(progress: Float) {
+    @objc public func updateProgress(progress: Float) {
         guard let displayLink = displayLink else { return }
         if displayLink.duration > 0.0 && totalFrames == 0 {
             var frameRate = Float(0)
